@@ -20,7 +20,6 @@ jobs:
     steps:
       - IN: deploy-nodecluster-basic-manifest
       - IN: deploy-nodecluster-basic-cluster
-
-    on_success:
-      - script: tar zxf ~/www /tmp/shippable/$DEPLOYNODECLUSTERBASICMANIFEST_NAME/$DEPLOYNODECLUSTERBASICAPPFIL_NAME/
-      - script: sudo ./onebox
+      - TASK:
+        - script: tar zxf ~/www /tmp/shippable/$DEPLOYNODECLUSTERBASICMANIFEST_NAME/$DEPLOYNODECLUSTERBASICAPPFIL_NAME/
+        - script: cd ~/www/$DEPLOYNODECLUSTERBASICAPPFIL_NAME && sudo ./onebox
