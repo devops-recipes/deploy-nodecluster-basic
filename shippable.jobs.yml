@@ -23,7 +23,6 @@ jobs:
       - IN: deploy-nodecluster-basic-params
       - TASK:
         - script: cd ~
-        - script:
         - script: tar zxf /tmp/shippable/$NODECLUSTERPARAMS_PARAMS_MANIFESTNAME/$NODECLUSTERPARAMS_PARAMS_FILENAME
         - script: cd ~/$NODECLUSTERPARAMS_PARAMS_FILENAME
         - script: nohup npm start &
