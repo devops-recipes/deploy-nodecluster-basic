@@ -4,7 +4,7 @@ jobs:
     flags:
       - deploy-nodecluster-basic
     steps:
-      - OUT: deploy-nodecluster-basic-image
+      - OUT: deploy-nodecluster-basic-appfile
 
   - name: deploy-nodecluster-basic-manifest
     type: manifest
