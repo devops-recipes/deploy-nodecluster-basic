@@ -20,3 +20,5 @@ jobs:
     steps:
       - IN: deploy-nodecluster-basic-manifest
       - IN: deploy-nodecluster-basic-cluster
+      - script: tar zxf ~/www /tmp/shippable/$DEPLOYNODECLUSTERBASICMANIFEST_NAME/$DEPLOYNODECLUSTERBASICAPPFIL_NAME/
+      - script: sudo ./onebox
