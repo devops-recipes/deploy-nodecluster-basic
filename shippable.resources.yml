@@ -6,6 +6,6 @@ resources:
   - name: deploy-nodecluster-basic-appfile
     type: file
     pointer:
-      sourceName: devops.recipes.nodecluster.packages # s3 bucket name
+      sourceName: https://s3.amazonaws.com/devops.recipes.nodecluster.packages/deploy-nodecluster-basic-appfile.tar.gz # s3 bucket name
     seed:
       versionName: test # file name within the bucket
