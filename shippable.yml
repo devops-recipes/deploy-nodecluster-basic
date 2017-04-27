@@ -34,7 +34,7 @@ build:
   # http://docs.shippable.com/ci/shippableyml/#post_ci
   post_ci:
     - if [ $IS_PULL_REQUEST == "false" ] ; then BUCKETKEY="$REPO_NAME-$BRANCH-$BUILD_NUMBER.tar.gz"; fi;
-    - if [ $IS_PULL_REQUEST == "false" ] ; then pushd /tmp && tar -cfz $BUCKETKEY $SHIPPABLE_BUILD_DIR; fi;
+    - if [ $IS_PULL_REQUEST == "false" ] ; then pushd /tmp && tar cfz $BUCKETKEY $SHIPPABLE_BUILD_DIR; fi;
     - if [ $IS_PULL_REQUEST == "false" ] ; then aws s3 cp $BUCKET_KEY s3://$BUCKETNAME/ && popd; fi;
     - if [ $IS_PULL_REQUEST == "false" ] ; then echo "versionName=$BUCKETKEY" > $JOB_STATE/deploy-nodecluster-basic-appfile.env; fi;
 
