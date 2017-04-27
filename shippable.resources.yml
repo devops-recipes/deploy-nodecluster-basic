@@ -6,6 +6,6 @@ resources:
   - name: deploy-nodecluster-basic-appfile
     type: file
     pointer:
-      sourceName: deploy-nodecluster-basic # s3 bucket name
+      sourceName: devops.recipes.nodecluster.packages # s3 bucket name
     seed:
       versionName: test # file name within the bucket
