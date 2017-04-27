@@ -21,5 +21,7 @@ jobs:
       - IN: deploy-nodecluster-basic-manifest
       - IN: deploy-nodecluster-basic-cluster
       - TASK:
-        - script: tar zxf ~/ /tmp/shippable/$DEPLOYNODECLUSTERBASICMANIFEST_NAME/$DEPLOYNODECLUSTERBASICAPPFIL_NAME/
-        - script: cd ~/$DEPLOYNODECLUSTERBASICAPPFIL_NAME && sudo ./onebox
+        - script: cd ~
+        - script: tar zxf /tmp/shippable/$DEPLOYNODECLUSTERBASICMANIFEST_NAME/$DEPLOYNODECLUSTERBASICAPPFIL_NAME/
+        - script: mkdir -p ~/$DEPLOYNODECLUSTERBASICAPPFIL_NAME && cd ~/$DEPLOYNODECLUSTERBASICAPPFIL_NAME
+        - script: cd $DEPLOYNODECLUSTERBASICAPPFIL_NAME && nohup npm start &
