@@ -33,6 +33,8 @@ build:
 
   # http://docs.shippable.com/ci/shippableyml/#post_ci
   post_ci:
+    - echo "$SHIPPABLE_BUILD_DIR"
+    - echo "$SHIPPABLE_REPO_DIR"
     - if [ $IS_PULL_REQUEST == "false" ] ; then BUCKETKEY="$DEPLOYNODECLUSTERBASICAPPFILE_NAME.tar.gz"; fi;
     - if [ $IS_PULL_REQUEST == "false" ] ; then pushd /tmp && tar cfz $BUCKETKEY $SHIPPABLE_REPO_DIR; fi;
     - if [ $IS_PULL_REQUEST == "false" ] ; then aws s3 cp $BUCKETKEY s3://$BUCKETNAME/ && popd; fi;
