@@ -1,0 +1,22 @@
+jobs:
+  - name: deploy-nodecluster-basic_runCI
+    type: runCI
+    flags:
+      - deploy-nodecluster-basic
+    steps:
+      - OUT: deploy-nodecluster-basic-image
+
+  - name: deploy-nodecluster-basic-manifest
+    type: manifest
+    flags:
+      - deploy-nodecluster-basic
+    steps:
+     - IN: deploy-nodecluster-basic-appfile
+
+  - name: deploy-nodecluster-basic-deploy
+    type: deploy
+    flags:
+      - deploy-nodecluster-basic
+    steps:
+      - IN: deploy-nodecluster-basic-manifest
+      - IN: deploy-nodecluster-basic-cluster
