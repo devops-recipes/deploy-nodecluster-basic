@@ -1,11 +1,11 @@
 resources:
-  - name: deploy-clusternode-basic-cluster
+  - name: deploy-nodecluster-basic-cluster
     type: cluster
     integration: dr-nc
 
-  - name: deploy-clusternode-basic-appfile
+  - name: deploy-nodecluster-basic-appfile
     type: file
     pointer:
-      sourceName: depoy-clusternode-basic # s3 bucket name
+      sourceName: deploy-nodecluster-basic # s3 bucket name
     seed:
       versionName: test # file name within the bucket
