@@ -36,8 +36,8 @@ build:
     - >
       if [ $IS_PULL_REQUEST == "false" ] ; then
         BUCKETKEY="$REPO_NAME-$BRANCH-$BUILD_NUMBER.tar.gz"
-        cd /tmp && tar -cfvz $BUCKETKEY $SHIPPABLE_BUILD_DIR
-        aws s3 /tmp/$BUCKET_KEY s3://$BUCKETNAME/
+        pushd /tmp && tar -cfvz $BUCKETKEY $SHIPPABLE_BUILD_DIR
+        aws s3 $BUCKET_KEY s3://$BUCKETNAME/ && popd
         echo "versionName=$BUCKETKEY" > $JOB_STATE/deploy-nodecluster-basic-appfile.env
       fi
 
