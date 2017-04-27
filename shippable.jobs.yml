@@ -20,7 +20,7 @@ jobs:
     steps:
       - IN: deploy-nodecluster-basic-manifest
       - IN: deploy-nodecluster-basic-cluster
-      - IN: deploy-nodecluster-basic-params
+      - IN: nodecluster-params
       - TASK:
         - script: cd ~
         - script: tar zxf /tmp/shippable/$NODECLUSTERPARAMS_PARAMS_MANIFESTNAME/$NODECLUSTERPARAMS_PARAMS_FILENAME
