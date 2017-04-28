@@ -11,7 +11,8 @@ jobs:
     flags:
       - deploy-nodecluster-basic
     steps:
-     - IN: deploy-nodecluster-basic-appfile
+      - IN: nodecluster-params
+      - IN: deploy-nodecluster-basic-appfile
 
   - name: deploy-nodecluster-basic-deploy
     type: deploy
@@ -20,7 +21,7 @@ jobs:
     steps:
       - IN: deploy-nodecluster-basic-manifest
       - IN: deploy-nodecluster-basic-cluster
-      - IN: nodecluster-params
+
       - TASK:
         - script: cd ~
         - script: tar zxf /tmp/shippable/$manifestName/$fileName/$fileName.tar.gz
