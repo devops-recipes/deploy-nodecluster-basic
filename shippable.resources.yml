@@ -22,3 +22,4 @@ resources:
       params:
         manifestName: deploy-nodecluster-basic-manifest
         fileName: deploy-nodecluster-basic-appfile
+        PORT: 80
