@@ -15,7 +15,7 @@ resources:
     seed:
       versionName: test # dummy starting point
 
-  - name: nodecluster-params
+  - name: nodecluster-jfrog-params
     type: params
     flags:
       - deploy-nodecluster-jfrog

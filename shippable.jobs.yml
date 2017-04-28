@@ -11,7 +11,7 @@ jobs:
     flags:
       - deploy-nodecluster-jfrog
     steps:
-      - IN: nodecluster-params
+      - IN: nodecluster-jfrog-params
       - IN: deploy-nodecluster-jfrog-appfile
 
   - name: deploy-nodecluster-jfrog-deploy
