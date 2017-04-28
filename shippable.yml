@@ -37,7 +37,7 @@ build:
     - echo "$SHIPPABLE_REPO_DIR"
     - if [ $IS_PULL_REQUEST == "false" ] ; then BUCKETKEY="$DEPLOYNODECLUSTERBASICAPPFILE_NAME.tar.gz"; fi;
     - if [ $IS_PULL_REQUEST == "false" ] ; then pushd $SHIPPABLE_REPO_DIR && tar cfz /tmp/$BUCKETKEY . && popd; fi;
-    - if [ $IS_PULL_REQUEST == "false" ] ; then pushd /tmp && jfrog rt u $BUCKETKEY "$TARGETPATH/" && popd; fi;
+    - if [ $IS_PULL_REQUEST == "false" ] ; then pushd /tmp && jfrog rt u $BUCKETKEY "$TARGETPATH/$BUCKETKEY" && popd; fi;
     - if [ $IS_PULL_REQUEST == "false" ] ; then echo "versionName=$COMMIT" > $JOB_STATE/deploy-nodecluster-jfrog-appfile.env; fi;
 
 # Integrations are used to connect external resources to CI

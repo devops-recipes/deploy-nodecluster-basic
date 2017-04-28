@@ -11,7 +11,7 @@ resources:
       - deploy-nodecluster-jfrog
     integration: dr-artifactory
     pointer:
-      sourceName: https://s3.amazonaws.com/devops.recipes.nodecluster.packages/deploy-nodecluster-jfrog-appfile.tar.gz # points directly to publicly available file
+      sourceName: devops-recipes-nodecluster-packages/deploy-nodecluster-jfrog-appfile.tar.gz # points directly to publicly available file
     seed:
       versionName: test # dummy starting point
 
