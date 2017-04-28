@@ -1,27 +1,27 @@
 resources:
-  - name: deploy-nodecluster-basic-cluster
+  - name: deploy-nodecluster-jfrog-cluster
     type: cluster
     flags:
-      - deploy-nodecluster-basic
+      - deploy-nodecluster-jfrog
     integration: dr-nc
 
-  - name: deploy-nodecluster-basic-appfile
+  - name: deploy-nodecluster-jfrog-appfile
     type: file
     flags:
-      - deploy-nodecluster-basic
+      - deploy-nodecluster-jfrog
     integration: dr-artifactory
     pointer:
-      sourceName: https://s3.amazonaws.com/devops.recipes.nodecluster.packages/deploy-nodecluster-basic-appfile.tar.gz # points directly to publicly available file
+      sourceName: https://s3.amazonaws.com/devops.recipes.nodecluster.packages/deploy-nodecluster-jfrog-appfile.tar.gz # points directly to publicly available file
     seed:
       versionName: test # dummy starting point
 
   - name: nodecluster-params
     type: params
     flags:
-      - deploy-nodecluster-basic
+      - deploy-nodecluster-jfrog
     version:
       params:
-        manifestName: deploy-nodecluster-basic-manifest
-        fileName: deploy-nodecluster-basic-appfile
+        manifestName: deploy-nodecluster-jfrog-manifest
+        fileName: deploy-nodecluster-jfrog-appfile
         PORT: 8888
         ENVIRONMENT: nodeCluster

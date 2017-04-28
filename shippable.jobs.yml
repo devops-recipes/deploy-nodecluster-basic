@@ -1,26 +1,26 @@
 jobs:
-  - name: deploy-nodecluster-basic_runCI
+  - name: deploy-nodecluster-jfrog_runCI
     type: runCI
     flags:
-      - deploy-nodecluster-basic
+      - deploy-nodecluster-jfrog
     steps:
-      - OUT: deploy-nodecluster-basic-appfile
+      - OUT: deploy-nodecluster-jfrog-appfile
 
-  - name: deploy-nodecluster-basic-manifest
+  - name: deploy-nodecluster-jfrog-manifest
     type: manifest
     flags:
-      - deploy-nodecluster-basic
+      - deploy-nodecluster-jfrog
     steps:
       - IN: nodecluster-params
-      - IN: deploy-nodecluster-basic-appfile
+      - IN: deploy-nodecluster-jfrog-appfile
 
-  - name: deploy-nodecluster-basic-deploy
+  - name: deploy-nodecluster-jfrog-deploy
     type: deploy
     flags:
-      - deploy-nodecluster-basic
+      - deploy-nodecluster-jfrog
     steps:
-      - IN: deploy-nodecluster-basic-manifest
-      - IN: deploy-nodecluster-basic-cluster
+      - IN: deploy-nodecluster-jfrog-manifest
+      - IN: deploy-nodecluster-jfrog-cluster
 
       - TASK:
         - script: cd ~
