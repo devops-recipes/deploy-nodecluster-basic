@@ -1,5 +1,5 @@
 jobs:
-  - name: deploy-nodecluster-jfrog_runCI
+  - name: deploy-nodecluster-basic_runCI
     type: runCI
     flags:
       - deploy-nodecluster-jfrog
