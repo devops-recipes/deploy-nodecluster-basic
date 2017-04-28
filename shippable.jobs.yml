@@ -24,4 +24,5 @@ jobs:
       - TASK:
         - script: cd ~
         - script: tar zxf /tmp/shippable/$manifestName/$fileName/$fileName.tar.gz
+        - script: forever stopall
         - script: forever start ./bin/www
