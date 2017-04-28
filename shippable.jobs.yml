@@ -24,5 +24,4 @@ jobs:
       - TASK:
         - script: cd ~
         - script: tar zxf /tmp/shippable/$manifestName/$fileName/$fileName.tar.gz
-        - script: nvm use --lts
         - script: nohup npm start &
