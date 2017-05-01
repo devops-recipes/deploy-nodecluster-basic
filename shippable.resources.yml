@@ -24,3 +24,14 @@ resources:
         fileName: deploy-nodecluster-basic-appfile
         PORT: 8888
         ENVIRONMENT: nodeCluster
+
+  - name: nodecluster-params-2
+    type: params
+    flags:
+      - deploy-nodecluster-basic
+    version:
+      params:
+        manifestName: deploy-nodecluster-basic-manifest
+        fileName: deploy-nodecluster-basic-appfile
+        PORT: 8080
+        ENVIRONMENT: prodCluster
