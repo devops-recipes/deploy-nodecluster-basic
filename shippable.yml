@@ -32,7 +32,7 @@ build:
     - popd
 
   # http://docs.shippable.com/ci/shippableyml/#post_ci
-  post_ci:
+  push:
     - echo "$SHIPPABLE_BUILD_DIR"
     - echo "$SHIPPABLE_REPO_DIR"
     - if [ $IS_PULL_REQUEST == "false" ] ; then BUCKETKEY="$DEPLOYNODECLUSTERBASICAPPFILE_NAME.tar.gz"; fi;
@@ -43,8 +43,7 @@ build:
 # Integrations are used to connect external resources to CI
 # http://docs.shippable.com/integrations/overview/
 integrations:
-  # adding ECR integration so that credentials are available to CI Job
-  # http://docs.shippable.com/integrations/imageRegistries/ecr/
+  # adding jfrog integration so that credentials are available to CI Job
   hub:
     - integrationName: dr-artifactory
       type: artifactory
