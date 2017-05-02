@@ -14,13 +14,25 @@ jobs:
       - IN: nodecluster-params
       - IN: deploy-nodecluster-basic-appfile
 
+  - name: deploy-nodecluster-basic-manifest-2
+    type: manifest
+    flags:
+      - deploy-nodecluster-basic
+    steps:
+      - IN: nodecluster-params-2
+      - IN: deploy-nodecluster-basic-appfile
+
   - name: deploy-nodecluster-basic-deploy
     type: deploy
     flags:
       - deploy-nodecluster-basic
     steps:
-      - IN: nodecluster-params-2
+
       - IN: deploy-nodecluster-basic-manifest
+      - IN: deploy-nodecluster-basic-manifest-2
+      - IN: nodecluster-params-final
+        applyTo:
+          manifest: deploy-nodecluster-basic-manifest
       - IN: deploy-nodecluster-basic-cluster
 
       - TASK:

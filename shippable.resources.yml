@@ -33,5 +33,16 @@ resources:
       params:
         manifestName: deploy-nodecluster-basic-manifest
         fileName: deploy-nodecluster-basic-appfile
+        PORT: 9999
+        ENVIRONMENT: prodCluster
+
+  - name: nodecluster-params-final
+    type: params
+    flags:
+      - deploy-nodecluster-basic
+    version:
+      params:
+        manifestName: deploy-nodecluster-basic-manifest
+        fileName: deploy-nodecluster-basic-appfile
         PORT: 8080
         ENVIRONMENT: prodCluster
