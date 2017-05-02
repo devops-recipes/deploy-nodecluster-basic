@@ -32,7 +32,7 @@ jobs:
       - IN: deploy-nodecluster-basic-manifest-2
       - IN: nodecluster-params-final
         applyTo:
-          manifest: deploy-nodecluster-basic-manifest
+          - deploy-nodecluster-basic-manifest
       - IN: deploy-nodecluster-basic-cluster
 
       - TASK:
