@@ -20,8 +20,6 @@ resources:
       - deploy-nodecluster-basic
     version:
       params:
-        manifestName: deploy-nodecluster-basic-manifest
-        fileName: deploy-nodecluster-basic-appfile
         PORT: 8888
         ENVIRONMENT: nodeCluster
 
@@ -31,8 +29,6 @@ resources:
       - deploy-nodecluster-basic
     version:
       params:
-        manifestName: deploy-nodecluster-basic-manifest
-        fileName: deploy-nodecluster-basic-appfile
         PORT: 9999
         ENVIRONMENT: prodCluster
 
@@ -42,7 +38,5 @@ resources:
       - deploy-nodecluster-basic
     version:
       params:
-        manifestName: deploy-nodecluster-basic-manifest
-        fileName: deploy-nodecluster-basic-appfile
         PORT: 8080
         ENVIRONMENT: prodCluster
