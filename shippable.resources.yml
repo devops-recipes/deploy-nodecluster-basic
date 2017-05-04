@@ -22,21 +22,3 @@ resources:
       params:
         PORT: 8888
         ENVIRONMENT: nodeCluster
-
-  - name: nodecluster-params-2
-    type: params
-    flags:
-      - deploy-nodecluster-basic
-    version:
-      params:
-        PORT: 9999
-        ENVIRONMENT: prodCluster
-
-  - name: nodecluster-params-final
-    type: params
-    flags:
-      - deploy-nodecluster-basic
-    version:
-      params:
-        PORT: 8080
-        ENVIRONMENT: prodCluster
