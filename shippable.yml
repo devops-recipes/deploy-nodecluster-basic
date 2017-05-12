@@ -46,5 +46,5 @@ integrations:
   # adding ECR integration so that credentials are available to CI Job
   # http://docs.shippable.com/integrations/imageRegistries/ecr/
   hub:
-    - integrationName: dr-ecr
+    - integrationName: dr-aws
       type: ecr
