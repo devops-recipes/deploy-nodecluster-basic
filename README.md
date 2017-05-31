@@ -10,7 +10,7 @@ and istanbul. It also zips up the software package and copies it to Amazon S3
 ## Run CI for this repo on Shippable
 * Fork this repo into your local repo
 * Login into the [Continuous Integration Service](wwww.shippable.com)
-* Create a generic [key/value integration](http://docs.shippable.com/integrations/int-key-value) on shippable, containing your AWS credentials.
+* Create a generic [key/value integration](http://docs.shippable.com/reference/int-key-value) on shippable, containing your AWS credentials.
 * All CI configuration is in `shippable.yml`
 * Follow these [CI Setup Instructions](http://docs.shippable.com/ci/runFirstBuild/) if you have never used Shippable CI Service
 * Update the integrationName in the `integrations` section if you used something other than `dr-aws-kv`
