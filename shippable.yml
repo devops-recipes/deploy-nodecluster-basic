@@ -43,8 +43,8 @@ build:
 # Integrations are used to connect external resources to CI
 # http://docs.shippable.com/integrations/overview/
 integrations:
-  # adding ECR integration so that credentials are available to CI Job
-  # http://docs.shippable.com/integrations/imageRegistries/ecr/
-  hub:
-    - integrationName: dr-aws
-      type: ecr
+  # adding generic key/value integration so that AWS credentials are available
+  # in the environment of the CI Job
+  # http://docs.shippable.com/reference/int-key-value/
+  generic:
+    - integrationName: dr-aws-kv
