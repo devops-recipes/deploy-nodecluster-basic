@@ -46,5 +46,96 @@ integrations:
   # adding ECR integration so that credentials are available to CI Job
   # http://docs.shippable.com/integrations/imageRegistries/ecr/
   hub:
-    - integrationName: dr-ecr
+    - integrationName: dr-aws-keys
       type: ecr
+
+resources:
+  - name: deploy-nodecluster-basic-cluster
+    type: cluster
+    flags:
+      - deploy-nodecluster-basic
+    integration: dr-nc
+
+  - name: deploy-nodecluster-basic-appfile
+    type: file
+    flags:
+      - deploy-nodecluster-basic
+    pointer:
+      sourceName: https://s3.amazonaws.com/devops.recipes.nodecluster.packages/deploy-nodecluster-basic-appfile.tar.gz # points directly to publicly available file
+    seed:
+      versionName: test # dummy starting point
+
+  - name: nodecluster-params
+    type: params
+    flags:
+      - deploy-nodecluster-basic
+    version:
+      params:
+        PORT: 8888
+        ENVIRONMENT: nodeCluster
+
+  - name: nodecluster-params-2
+    type: params
+    flags:
+      - deploy-nodecluster-basic
+    version:
+      params:
+        PORT: 9999
+        ENVIRONMENT: prodCluster
+
+  - name: nodecluster-params-final
+    type: params
+    flags:
+      - deploy-nodecluster-basic
+    version:
+      params:
+        PORT: 8080
+        ENVIRONMENT: prodCluster
+
+
+jobs:
+  - name: deploy-nodecluster-basic_runCI
+    type: runCI
+    flags:
+      - deploy-nodecluster-basic
+    steps:
+      - OUT: deploy-nodecluster-basic-appfile
+
+  - name: deploy-nodecluster-basic-manifest
+    type: manifest
+    flags:
+      - deploy-nodecluster-basic
+    steps:
+      - IN: nodecluster-params
+      - IN: deploy-nodecluster-basic-appfile
+
+  - name: deploy-nodecluster-basic-manifest-2
+    type: manifest
+    flags:
+      - deploy-nodecluster-basic
+    steps:
+      - IN: nodecluster-params-2
+      - IN: deploy-nodecluster-basic-appfile
+
+  - name: deploy-nodecluster-basic-deploy
+    type: deploy
+    flags:
+      - deploy-nodecluster-basic
+    steps:
+      - IN: deploy-nodecluster-basic-manifest
+      - IN: deploy-nodecluster-basic-manifest-2
+      - IN: nodecluster-params-final
+        applyTo:
+          - deploy-nodecluster-basic-manifest
+      - IN: deploy-nodecluster-basic-cluster
+      - TASK:
+        - script: forever stopall
+        - script: mkdir -p ~/deploy-nodecluster-basic-manifest && mkdir -p deploy-nodecluster-basic-manifest-2
+        - script: cd ~/deploy-nodecluster-basic-manifest
+        - script: source /tmp/shippable/deploy-nodecluster-basic-manifest/deploy-nodecluster-basic-appfile/package.env
+        - script: tar zxf /tmp/shippable/deploy-nodecluster-basic-manifest/deploy-nodecluster-basic-appfile/deploy-nodecluster-basic-appfile.tar.gz
+        - script: forever start ./bin/www
+        - script: cd ~/deploy-nodecluster-basic-manifest-2
+        - script: source /tmp/shippable/deploy-nodecluster-basic-manifest-2/deploy-nodecluster-basic-appfile/package.env
+        - script: tar zxf /tmp/shippable/deploy-nodecluster-basic-manifest-2/deploy-nodecluster-basic-appfile/deploy-nodecluster-basic-appfile.tar.gz
+        - script: forever start ./bin/www
