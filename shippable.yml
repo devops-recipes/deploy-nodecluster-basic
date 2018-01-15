@@ -1,12 +1,6 @@
 # Language setting http://docs.shippable.com/ci/languages/node/
 language: node_js
 
-# use this to control what branches get built.
-# http://docs.shippable.com/ci/advancedOptions/branches/
-branches:
-  only:
-    - master
-
 # using pre-defined build variables
 # full list http://docs.shippable.com/ci/advancedOptions/environmentVariables/
 env:
@@ -15,13 +9,12 @@ env:
     - CODE_COVERAGE_DIR=$SHIPPABLE_REPO_DIR/shippable/codecoverage
     - TESTS_LOC_DIR=$SHIPPABLE_REPO_DIR/tests
     - MOD_LOC=$SHIPPABLE_REPO_DIR/node_modules/.bin/
-    - BUCKETNAME="devops.recipes.nodecluster.packages"
 
 build:
 
   # http://docs.shippable.com/ci/shippableyml/#ci
   ci:
-    # npm mirrors can sometimes be flacky, better to use shippable_retry
+    # npm mirrors can sometimes be flaky, better to use shippable_retry
     # http://docs.shippable.com/ci/advancedOptions/retry/
     - shippable_retry npm install
     - mkdir -p $TEST_RESULTS_DIR && mkdir -p $CODE_COVERAGE_DIR
@@ -33,76 +26,45 @@ build:
 
   # http://docs.shippable.com/ci/shippableyml/#post_ci
   post_ci:
-    - echo "$SHIPPABLE_BUILD_DIR"
-    - echo "$SHIPPABLE_REPO_DIR"
-    - if [ $IS_PULL_REQUEST == "false" ] ; then BUCKETKEY="$DEPLOYNODECLUSTERBASICAPPFILE_NAME.tar.gz"; fi;
-    - if [ $IS_PULL_REQUEST == "false" ] ; then pushd $SHIPPABLE_REPO_DIR && tar cfz /tmp/$BUCKETKEY . && popd; fi;
-    - if [ $IS_PULL_REQUEST == "false" ] ; then pushd /tmp && aws s3 cp $BUCKETKEY s3://$BUCKETNAME/ --acl public-read && popd; fi;
-    - if [ $IS_PULL_REQUEST == "false" ] ; then echo "versionName=$COMMIT" > $JOB_STATE/deploy-nodecluster-basic-appfile.env; fi;
-
-# Integrations are used to connect external resources to CI
-# http://docs.shippable.com/integrations/overview/
-integrations:
-  # adding generic key/value integration so that AWS credentials are available
-  # in the environment of the CI Job
-  # http://docs.shippable.com/reference/int-key-value/
-  generic:
-    - integrationName: dr-aws-kv
-
+    - if [ $IS_PULL_REQUEST == "false" ] ; then shipctl put_resource_state  deploy-nodecluster-gitRepo-repo "versionName" $(shipctl get_resource_version_name deploy-nodecluster-basic_ciRepo); fi;
+    - if [ $IS_PULL_REQUEST == "false" ] ; then jq -M --argfile ciRepo $DEPLOYNODECLUSTERBASIC_CIREPO_PATH/version.json '.version.propertyBag.shaData = $ciRepo.version.propertyBag.shaData' $DEPLOYNODECLUSTERGITREPOREPO_PATH/version.json > tmp.json && mv tmp.json $DEPLOYNODECLUSTERGITREPOREPO_PATH/version.json; fi;
 
 resources:
-  - name: deploy-nodecluster-basic-cluster
+  - name: deploy-nodecluster-gitRepo-cluster
     type: cluster
     flags:
-      - deploy-nodecluster-basic
+      - deploy-nodecluster-gitRepo
     integration: dr-nc
 
-  - name: deploy-nodecluster-basic-appfile
-    type: file
+  - name: deploy-nodecluster-gitRepo-repo
+    type: gitRepo
     flags:
-      - deploy-nodecluster-basic
-    pointer:
-      sourceName: https://s3.amazonaws.com/devops.recipes.nodecluster.packages/deploy-nodecluster-basic-appfile.tar.gz # points directly to publicly available file
-    seed:
-      versionName: test # dummy starting point
-
-  - name: nodecluster-params
-    type: params
-    flags:
-      - deploy-nodecluster-basic
-    version:
-      params:
-        PORT: 8888
-        ENVIRONMENT: nodeCluster
-
+      - deploy-nodecluster-gitRepo
+    integration: github
+    versionTemplate:
+      sourceName: devops-recipes/deploy-nodecluster-basic
+      branch: gitRepo # This will create the first version for the gitRepo branch
+      buildOnCommit: false # We don't want to automatically update this resource
 
 jobs:
   - name: deploy-nodecluster-basic_runCI
     type: runCI
     flags:
-      - deploy-nodecluster-basic
+      - deploy-nodecluster-gitRepo
     steps:
-      - OUT: deploy-nodecluster-basic-appfile
+      - OUT: deploy-nodecluster-gitRepo-repo
 
-  - name: deploy-nodecluster-basic-manifest
-    type: manifest
-    flags:
-      - deploy-nodecluster-basic
-    steps:
-      - IN: nodecluster-params
-      - IN: deploy-nodecluster-basic-appfile
-
-  - name: deploy-nodecluster-basic-deploy
+  - name: deploy-nodecluster-gitRepo-deploy
     type: deploy
     flags:
-      - deploy-nodecluster-basic
+      - deploy-nodecluster-gitRepo
     steps:
-      - IN: deploy-nodecluster-basic-manifest
-      - IN: deploy-nodecluster-basic-cluster
+      - IN: deploy-nodecluster-gitRepo-repo
+      - IN: deploy-nodecluster-gitRepo-cluster
       - TASK:
         - script: forever stopall
-        - script: mkdir -p ~/deploy-nodecluster-basic-manifest && mkdir -p deploy-nodecluster-basic-manifest-2
-        - script: cd ~/deploy-nodecluster-basic-manifest
-        - script: source /tmp/shippable/deploy-nodecluster-basic-manifest/deploy-nodecluster-basic-appfile/package.env
-        - script: tar zxf /tmp/shippable/deploy-nodecluster-basic-manifest/deploy-nodecluster-basic-appfile/deploy-nodecluster-basic-appfile.tar.gz
-        - script: forever start ./bin/www
+        - script: rm -r ~/deploy-nodecluster-gitRepo-repo
+        - script: mv /tmp/shippable/deploy-nodecluster-gitRepo-repo/gitRepo ~/deploy-nodecluster-gitRepo-repo
+        - script: cd ~/deploy-nodecluster-gitRepo-repo
+        - script: npm install
+        - script: PORT=8888 ENVIRONMENT=nodeCluster forever start ./bin/www
