@@ -5,7 +5,7 @@
 ![AyeAye](https://github.com/devops-recipes/deploy-nodecluster-basic/blob/master/public/resources/images/captain.png)
 
 A simple Node JS application with unit tests and coverage reports using mocha
-and istanbul. It also zips up the software package and copies it to Amazon S3
+and istanbul.
 
 ## Run CI for this repo on Shippable
 * Fork this repo into your local repo
@@ -14,7 +14,6 @@ and istanbul. It also zips up the software package and copies it to Amazon S3
 * All CI configuration is in `shippable.yml`
 * Follow these [CI Setup Instructions](http://docs.shippable.com/ci/runFirstBuild/) if you have never used Shippable CI Service
 * Update the integrationName in the `integrations` section if you used something other than `dr-aws-kv`
-* Change the S3 details to point to your bucket
 * You should be able to run a manual build or webhook build on commit
 
 ## CI Reports on Shippable
